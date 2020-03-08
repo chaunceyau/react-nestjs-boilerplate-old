@@ -1,0 +1,61 @@
+import { client } from '../../App'
+import { gql } from 'apollo-boost'
+
+export const QUERY_CURRENT_USER = gql`
+  query QUERY_CURRENT_USER {
+    currentUser {
+      id
+    }
+  }
+`
+function handleUserResponse({ data }) {
+  if (!data) return { data: null }
+  return data.login
+}
+
+function login({ email, password }) {
+  return client
+    .mutate({
+      mutation: MUTATION_LOGIN_USER,
+      variables: { email, password }
+    })
+    .then(handleUserResponse)
+    .catch(err => Promise.reject(err))
+}
+
+function register({ email, password }) {
+  return client
+    .mutate({
+      mutation: MUTATION_REGISTER_USER,
+      variables: { email, password }
+    })
+    .then(handleUserResponse)
+}
+
+function logout() {
+  return client.mutate({
+    mutation: gql`
+      mutation LogoutUser {
+        logout
+      }
+    `
+  })
+}
+
+const MUTATION_REGISTER_USER = gql`
+  mutation MUTATION_REGISTER_USER($email: String!, $password: String!) {
+    signup(signUpInput: { email: $email, password: $password }) {
+      id
+    }
+  }
+`
+
+const MUTATION_LOGIN_USER = gql`
+  mutation MUTATION_LOGIN_USER($email: String!, $password: String!) {
+    login(loginInput: { email: $email, password: $password }) {
+      id
+    }
+  }
+`
+
+export { login, register, logout }

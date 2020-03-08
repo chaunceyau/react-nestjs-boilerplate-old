@@ -1,0 +1,33 @@
+type User {
+  id: ID!
+  email: String!
+  password: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type AuthPayload {
+  id: String!
+  jwt: String
+}
+
+input CreateAccountInput {
+  email: String!
+  password: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  login(loginInput: LoginInput): User!
+  createAccount(createAccountInput: CreateAccountInput): AuthPayload!
+  logout: String
+}
+
+type Query {
+  user(id: ID!): User
+  currentUser: User
+}

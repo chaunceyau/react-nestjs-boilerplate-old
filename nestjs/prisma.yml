@@ -1,0 +1,6 @@
+endpoint: ${env:PRISMA_ENDPOINT}
+datamodel:
+  - ./src/prisma/database/datamodel.prisma
+generate:
+  - generator: typescript-client
+    output: ./src/prisma/generated/prisma-client/
