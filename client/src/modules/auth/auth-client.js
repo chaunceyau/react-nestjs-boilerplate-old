@@ -1,5 +1,6 @@
 import { client } from '../../App'
 import { gql } from 'apollo-boost'
+import { useMutation } from '@apollo/react-hooks'
 
 export const QUERY_CURRENT_USER = gql`
   query QUERY_CURRENT_USER {
@@ -29,7 +30,18 @@ function register({ email, password }) {
       mutation: MUTATION_REGISTER_USER,
       variables: { email, password }
     })
-    .then(handleUserResponse)
+}
+
+export function useRegistration() {
+  const [
+    registerMutation,
+    { loading, data, error }
+  ] = useMutation(MUTATION_REGISTER_USER)
+
+
+  return {
+    registerMutation, loading, data, error
+  }
 }
 
 function logout() {
@@ -44,7 +56,7 @@ function logout() {
 
 const MUTATION_REGISTER_USER = gql`
   mutation MUTATION_REGISTER_USER($email: String!, $password: String!) {
-    signup(signUpInput: { email: $email, password: $password }) {
+    createAccount(createAccountInput: { email: $email, password: $password }) {
       id
     }
   }

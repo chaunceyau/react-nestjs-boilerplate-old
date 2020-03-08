@@ -1,10 +1,10 @@
 import * as React from 'react'
-
+import { useForm } from 'react-hook-form'
+import { useMutation } from '@apollo/react-hooks'
 import { useNavigate } from '@reach/router'
 
 import { gql } from 'apollo-boost'
-import { useForm } from 'react-hook-form'
-import { useMutation } from '@apollo/react-hooks'
+import { register, useRegistration } from '../auth/auth-client'
 
 export interface IRegisterProps {
   path: string
@@ -22,18 +22,17 @@ export default class Register extends React.PureComponent<IRegisterProps> {
 
 function RegisterForm() {
   const navigate = useNavigate()
-  const [
-    registerMutation,
-    { loading, data, error: mutation_error }
-  ] = useMutation(MUTATION_REGISTER_USER)
+  // const [
+  //   registerMutation,
+  //   { loading, data, error: error }
+  // ] = useMutation(MUTATION_REGISTER_USER)
+
+  const { registerMutation, loading, data, error } = useRegistration()
   const { register, handleSubmit, watch, errors } = useForm()
 
   async function onSubmit({ email, password }: any, other: any) {
     try {
-      await registerMutation({
-        variables: { email, password }
-      })
-      navigate('/auth/login')
+      registerMutation({ variables: { email, password } }).then(data => navigate('/auth/login'))
     } catch (err) {
       console.log(err)
     }
@@ -101,9 +100,9 @@ function RegisterForm() {
                           ref={register}
                         />
                       </div>
-                      {mutation_error && (
+                      {error && (
                         <div className="row">
-                          {mutation_error.graphQLErrors.map((error) => {
+                          {error.graphQLErrors.map((error) => {
                             return (
                               <p className="text-danger px-4">
                                 {error.message}
@@ -133,11 +132,3 @@ function RegisterForm() {
     </div>
   )
 }
-
-const MUTATION_REGISTER_USER = gql`
-  mutation MUTATION_REGISTER_USER($email: String!, $password: String!) {
-    createAccount(createAccountInput: { email: $email, password: $password }) {
-      id
-    }
-  }
-`

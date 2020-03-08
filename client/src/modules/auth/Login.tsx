@@ -25,11 +25,15 @@ export default class Login extends React.PureComponent<ILoginProps> {
 function LoginForm() {
   const auth = useAuth()
   const navigate = useNavigate()
+  // TODO: refactor login function to be hook...
+  const [mutationError, setMutationError] = React.useState()
+
 
   const { register, handleSubmit, watch, errors } = useForm()
 
   async function onSubmit({ email, password }: any, other: any) {
     try {
+      // TODO: refactor login function to be hook...
       await auth.login({ email, password }).then(() => navigate('/dashboard'))
       // await loginMutation({
       //   variables: { email, password }
@@ -38,6 +42,7 @@ function LoginForm() {
       // navigate('/projects')
     } catch (err) {
       console.log(err)
+      setMutationError(err)
     }
   }
 
@@ -85,9 +90,9 @@ function LoginForm() {
                           ref={register}
                         />
                       </div>
-                      {/* {mutation_error && (
+                      {mutationError && (
                         <div className="row">
-                          {mutation_error.graphQLErrors.map(error => {
+                          {mutationError?.graphQLErrors?.map((error: any) => {
                             return (
                               <p className="text-danger px-4">
                                 {error.message}
@@ -95,7 +100,7 @@ function LoginForm() {
                             )
                           })}
                         </div>
-                      )} */}
+                      )}
                       <div className="row mt-2">
                         <div className="col">
                           <button type="submit" className="btn btn-primary">
@@ -126,11 +131,3 @@ function LoginForm() {
     </div>
   )
 }
-
-const MUTATION_LOGIN_USER = gql`
-  mutation MUTATION_LOGIN_USER($email: String!, $password: String!) {
-    login(loginInput: { email: $email, password: $password }) {
-      id
-    }
-  }
-`
