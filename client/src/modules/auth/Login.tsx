@@ -2,9 +2,7 @@ import * as React from 'react'
 
 import { Link, useNavigate } from '@reach/router'
 
-import { gql } from 'apollo-boost'
 import { useForm } from 'react-hook-form'
-import { useMutation } from '@apollo/react-hooks'
 import { useAuth } from '../context/auth-context'
 
 export interface ILoginProps {
@@ -29,17 +27,12 @@ function LoginForm() {
   const [mutationError, setMutationError] = React.useState()
 
 
-  const { register, handleSubmit, watch, errors } = useForm()
+  const { register, handleSubmit } = useForm()
 
   async function onSubmit({ email, password }: any, other: any) {
     try {
       // TODO: refactor login function to be hook...
       await auth.login({ email, password }).then(() => navigate('/dashboard'))
-      // await loginMutation({
-      //   variables: { email, password }
-      // })
-
-      // navigate('/projects')
     } catch (err) {
       console.log(err)
       setMutationError(err)

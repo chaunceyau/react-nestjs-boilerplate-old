@@ -1,10 +1,8 @@
 import * as React from 'react'
 import { useForm } from 'react-hook-form'
-import { useMutation } from '@apollo/react-hooks'
 import { useNavigate } from '@reach/router'
 
-import { gql } from 'apollo-boost'
-import { register, useRegistration } from '../auth/auth-client'
+import { useRegistration } from '../auth/auth-client'
 
 export interface IRegisterProps {
   path: string
@@ -22,13 +20,9 @@ export default class Register extends React.PureComponent<IRegisterProps> {
 
 function RegisterForm() {
   const navigate = useNavigate()
-  // const [
-  //   registerMutation,
-  //   { loading, data, error: error }
-  // ] = useMutation(MUTATION_REGISTER_USER)
 
-  const { registerMutation, loading, data, error } = useRegistration()
-  const { register, handleSubmit, watch, errors } = useForm()
+  const { registerMutation, loading, error } = useRegistration()
+  const { register, handleSubmit } = useForm()
 
   async function onSubmit({ email, password }: any, other: any) {
     try {
