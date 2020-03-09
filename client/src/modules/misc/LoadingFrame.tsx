@@ -9,7 +9,7 @@ export function LoadingFrame(props: ILoadingFrameProps) {
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
         <Link to="/" className="navbar-brand text-white">
-          Requesto.io
+          Boilerplate.io
         </Link>
       </nav>
       <LoadingIndicator />

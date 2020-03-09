@@ -48,8 +48,8 @@ function RegisterForm() {
                 <div className="card-body p-4">
                   <div className="pl-4 pr-4 pb-4 pt-2 text-center">
                     {/* <img
-                      alt="Requesto Logo"
-                      src={require('../../assets/requesto_logo.png')}
+                      alt="Boilerplate Logo"
+                      src={require('../../assets/Boilerplate_logo.png')}
                       className="avatar img-fluid"
                       style={{ height: 80 }}
                     /> */}
@@ -125,7 +125,7 @@ function RegisterForm() {
       <div className="row">
         <div className="col text-center">
           <small className="text-secondary">
-            © 2020 Requesto, Inc. All rights reserved.
+            © 2020 Austin L Chauncey, Inc. All rights reserved.
           </small>
         </div>
       </div>
