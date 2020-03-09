@@ -4,7 +4,7 @@
 
 ## Description
 
-Requesto application backend built using NestJS, Apollo Server & Prisma 1. 
+Boilerplate application backend built using NestJS, Apollo Server & Prisma 1. 
 
 ## Installation
 
