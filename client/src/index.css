@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.login-form-width {
+  min-width: 345px;
+}
+
+.login-form-container {
+  height: calc(100vh - 56px);
+}

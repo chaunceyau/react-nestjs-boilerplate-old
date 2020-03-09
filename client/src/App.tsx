@@ -19,9 +19,7 @@ function App() {
     <ApolloProvider client={client}>
       <div className="d-flex flex-column h-100">
         <Navigation user={user} />
-        <div className="container py-2">
-          { user ? <AuthenticatedApp /> : <UnauthenticatedApp /> }
-        </div>
+          { user ? <div className="container py-2"><AuthenticatedApp /> </div>:<div style={{ height: '100vh' }}><UnauthenticatedApp /></div>}
       </div>
     </ApolloProvider>
   )
