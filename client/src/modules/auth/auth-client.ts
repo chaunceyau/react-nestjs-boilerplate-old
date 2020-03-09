@@ -1,6 +1,7 @@
-import { client } from '../../App'
 import { gql } from 'apollo-boost'
 import { useMutation } from '@apollo/react-hooks'
+import { MUTATION_LOGIN_USERVariables, MUTATION_REGISTER_USERVariables } from '../api'
+import { client } from '../../App'
 
 export const QUERY_CURRENT_USER = gql`
   query QUERY_CURRENT_USER {
@@ -9,12 +10,13 @@ export const QUERY_CURRENT_USER = gql`
     }
   }
 `
-function handleUserResponse({ data }) {
+
+function handleUserResponse({ data }: any) {
   if (!data) return { data: null }
   return data.login
 }
 
-function login({ email, password }) {
+function login({ email, password }: MUTATION_LOGIN_USERVariables) {
   return client
     .mutate({
       mutation: MUTATION_LOGIN_USER,
@@ -24,7 +26,7 @@ function login({ email, password }) {
     .catch(err => Promise.reject(err))
 }
 
-function register({ email, password }) {
+function register({ email, password }: MUTATION_REGISTER_USERVariables) {
   return client
     .mutate({
       mutation: MUTATION_REGISTER_USER,

@@ -2,10 +2,23 @@ import { LoadingFrame } from '../misc/LoadingFrame'
 import React from 'react'
 import * as authClient from '../auth/auth-client'
 import { useQuery } from '@apollo/react-hooks'
+import { MUTATION_REGISTER_USERVariables, MUTATION_LOGIN_USERVariables } from '../api'
 
-const AuthContext = React.createContext()
+interface AuthGlobalContext {
+  login: (data: MUTATION_LOGIN_USERVariables) => void;
+  logout: () => void
+  register: (data: MUTATION_REGISTER_USERVariables) => void
+  data: any
+}
 
-function AuthProvider(props) {
+const AuthContext = React.createContext<AuthGlobalContext>({
+  login: () => {},
+  logout: () => {},
+  register: () => {},
+  data: undefined
+})
+
+function AuthProvider(props: {}) {
   const {
     loading,
     data,
@@ -20,7 +33,7 @@ function AuthProvider(props) {
     if (loading) return <LoadingFrame />
     if (error) {
       return (
-        <div css={{ color: 'red' }}>
+        <div>
           <p>Uh oh... There's a problem. Try refreshing the app.</p>
           <pre>{error.message}</pre>
         </div>
@@ -28,8 +41,8 @@ function AuthProvider(props) {
     }
   }
 
-  const login = form => authClient.login(form).then(refetch)
-  const register = form => authClient.register(form)
+  const login = (form: MUTATION_LOGIN_USERVariables) => authClient.login(form).then(refetch)
+  const register = (form: MUTATION_REGISTER_USERVariables) => authClient.register(form)
 
   const logout = () =>
     authClient
